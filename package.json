@@ -1,0 +1,23 @@
+{
+  "name": "jupiter-toys-test",
+  "version": "1.0.0",
+  "description": "Automated test suite for the demo Jupiter Toys website",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaydenmuzzin/jupiter-toys-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jaydenmuzzin/jupiter-toys-test/issues"
+  },
+  "homepage": "https://github.com/jaydenmuzzin/jupiter-toys-test#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.18"
+  }
+}
