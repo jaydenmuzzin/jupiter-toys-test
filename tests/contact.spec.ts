@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import CONTACT_FORM_DATA from "../data/contact-form.json";
 
 test.describe("Contact page", () => {
     test.beforeEach(async ({ page }) => {
@@ -74,5 +75,75 @@ test.describe("Contact page", () => {
                 await expect(page.getByText(ERROR_HEADER_MSG)).toBeHidden();
             });
         });
+
+        // Fulfilling Test Case condition: "Note: Run this test 5 times to ensure 100% pass rate"
+        const REPEAT_TEST = 5;
+
+        for (let i = 0; i < REPEAT_TEST; i++) {
+            let cfd = CONTACT_FORM_DATA[i];
+
+            test(`should successfully submit having populated mandatory fields with valid data: attempt #${
+                i + 1
+            }`, async ({ page }) => {
+                await test.step("Navigate to 'Contact' page", async () => {
+                    await page.getByRole("link", { name: "Contact" }).click();
+                    await page.waitForURL("**/contact");
+                    await expect(
+                        page
+                            .getByRole("listitem")
+                            .filter({ hasText: "Contact" })
+                    ).toHaveClass("active");
+                });
+
+                await test.step(`${cfd.forename} ${cfd.surname}'s contact form submits without error`, async () => {
+                    await test.step("Form can be populated", async () => {
+                        await page
+                            .getByRole("textbox", { name: "Forename *" })
+                            .fill(cfd.forename);
+                        await page
+                            .getByRole("textbox", { name: "Surname" })
+                            .fill(cfd.surname);
+                        await page
+                            .getByRole("textbox", { name: "Email *" })
+                            .fill(cfd.email);
+                        await page
+                            .getByRole("textbox", { name: "Telephone" })
+                            .fill(cfd.telephone);
+                        await page
+                            .getByRole("textbox", { name: "Message *" })
+                            .fill(cfd.message);
+                    });
+
+                    await test.step("Form can be submitted", async () => {
+                        await page
+                            .getByRole("link", { name: "Submit" })
+                            .click();
+                    });
+
+                    await expect(
+                        page.getByRole("heading", {
+                            name: "Sending Feedback",
+                        }),
+                        "'Sending Feedback' dialog is displayed while processing request"
+                    ).toBeVisible();
+
+                    // Time to complete form submission request varies, after which the form is no longer displayed.
+                    // Requests consistently complete within 20 seconds, which is deemed acceptable
+                    await expect(
+                        page.locator('form[name="form"]'),
+                        "Contact form is absent upon completion of form submission"
+                    ).toBeHidden({
+                        timeout: 20000,
+                    });
+                });
+
+                await expect(
+                    page.getByText(
+                        `Thanks ${cfd.forename}, we appreciate your feedback.`
+                    ),
+                    "Successful submission message is present upon completion of form submission"
+                ).toBeVisible();
+            });
+        }
     });
 });
