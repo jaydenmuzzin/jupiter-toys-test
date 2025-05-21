@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import CONTACT_FORM_DATA from "../data/contact-form.json";
 import { ContactPage } from "../page-objects/contact-page.pom";
+import { navigateTo } from "../utils/common";
 
 test.describe("Contact page", () => {
     test.beforeEach(async ({ page }) => {
@@ -12,11 +13,7 @@ test.describe("Contact page", () => {
             const CONTACT_PAGE = new ContactPage(page);
 
             await test.step("Navigate to 'Contact' page", async () => {
-                await page.getByRole("link", { name: "Contact" }).click();
-                await page.waitForURL("**/contact");
-                await expect(
-                    page.getByRole("listitem").filter({ hasText: "Contact" })
-                ).toHaveClass("active");
+                navigateTo(page, CONTACT_PAGE);
             });
 
             await test.step("Header message updated to indicate errors upon submitting an invalid form", async () => {
@@ -78,13 +75,7 @@ test.describe("Contact page", () => {
                 const CONTACT_PAGE = new ContactPage(page);
 
                 await test.step("Navigate to 'Contact' page", async () => {
-                    await page.getByRole("link", { name: "Contact" }).click();
-                    await page.waitForURL("**/contact");
-                    await expect(
-                        page
-                            .getByRole("listitem")
-                            .filter({ hasText: "Contact" })
-                    ).toHaveClass("active");
+                    navigateTo(page, CONTACT_PAGE);
                 });
 
                 await test.step(`${cfd.forename} ${cfd.surname}'s contact form submits without error`, async () => {

@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { ShopPage } from "../page-objects/shop-page.pom";
 import { CartPage } from "../page-objects/cart-page.pom";
+import { navigateTo } from "../utils/common";
 
 test.describe("Purchasing", () => {
     test.beforeEach(async ({ page }) => {
@@ -36,11 +37,7 @@ test.describe("Purchasing", () => {
         await SHOP_PAGE.buy(VALENTINE_BEAR_PROD);
 
         await test.step("Navigate to 'Cart' page", async () => {
-            await page.getByRole("link", { name: "Cart" }).click();
-            await page.waitForURL("**/cart");
-            await expect(
-                page.getByRole("listitem").filter({ hasText: "Cart" })
-            ).toHaveClass("active");
+            navigateTo(page, CART_PAGE);
         });
 
         const STUFFED_FROG_PROD_IN_CART = await CART_PAGE.product("Stuffed Frog");
