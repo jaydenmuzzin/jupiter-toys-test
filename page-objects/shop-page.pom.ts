@@ -1,10 +1,15 @@
 import { type Locator, type Page } from "@playwright/test";
+import { BasePage } from "./base-page";
 
-export class ShopPage {
+export class ShopPage implements BasePage {
     readonly page: Page;
+    readonly name: string;
+    readonly slug: string;
 
     constructor(page: Page) {
         this.page = page;
+        this.name = "Shop";
+        this.slug = "shop";
     }
 
     async product(name: string) {

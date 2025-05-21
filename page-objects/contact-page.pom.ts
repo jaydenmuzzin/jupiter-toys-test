@@ -2,6 +2,8 @@ import { expect, type Locator, type Page } from "@playwright/test";
 
 export class ContactPage {
     readonly page: Page;
+    readonly name: string;
+    readonly slug: string;
 
     readonly formInfo: Locator;
     readonly formInfoError: Locator;
@@ -17,6 +19,8 @@ export class ContactPage {
 
     constructor(page: Page) {
         this.page = page;
+        this.name = "Contact";
+        this.slug = "contact";
         this.formInfo = page.getByText(
             "We welcome your feedback - tell it how it is."
         );
