@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { ShopPage } from "../page-objects/shop-page.pom";
 
 test.describe("Purchasing", () => {
     test.beforeEach(async ({ page }) => {
@@ -8,46 +9,29 @@ test.describe("Purchasing", () => {
     test("should have correct prices and calculations in cart", async ({
         page,
     }) => {
-        const STUFFED_FROG_PROD = page
-            .getByRole("listitem")
-            .filter({ hasText: "Stuffed Frog" });
+        const SHOP_PAGE = new ShopPage(page);
 
-        const STUFFED_FROG_PROD_PRICE = (
-            await STUFFED_FROG_PROD.locator(".product-price").textContent()
-        )?.replace("$", "");
+        const STUFFED_FROG_PROD = await SHOP_PAGE.product("Stuffed Frog");
+        const STUFFED_FROG_PROD_PRICE = await SHOP_PAGE.productDecimalPrice(STUFFED_FROG_PROD);
 
-        await STUFFED_FROG_PROD.getByRole("link", { name: "Buy" }).click();
-        await STUFFED_FROG_PROD.getByRole("link", { name: "Buy" }).click();
+        await SHOP_PAGE.buy(STUFFED_FROG_PROD);
+        await SHOP_PAGE.buy(STUFFED_FROG_PROD);
 
-        const FLUFFY_BUNNY_PROD = page
-            .getByRole("listitem")
-            .filter({ hasText: "Fluffy Bunny" });
-        const FLUFFY_BUNNY_PROD_PRICE = (
-            await FLUFFY_BUNNY_PROD.locator(".product-price").textContent()
-        )?.replace("$", "");
+        const FLUFFY_BUNNY_PROD = await SHOP_PAGE.product("Fluffy Bunny");
+        const FLUFFY_BUNNY_PROD_PRICE = await SHOP_PAGE.productDecimalPrice(FLUFFY_BUNNY_PROD);
 
-        await FLUFFY_BUNNY_PROD.getByRole("link", { name: "Buy" }).click();
-        await FLUFFY_BUNNY_PROD.getByRole("link", { name: "Buy" }).click();
-        await FLUFFY_BUNNY_PROD.getByRole("link", { name: "Buy" }).click();
-        await FLUFFY_BUNNY_PROD.getByRole("link", { name: "Buy" }).click();
-        await FLUFFY_BUNNY_PROD.getByRole("link", { name: "Buy" }).click();
+        await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
+        await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
+        await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
+        await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
+        await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
 
-        const VALENTINE_BEAR_PROD = page
-            .getByRole("listitem")
-            .filter({ hasText: "Valentine Bear" });
-        const VALENTINE_BEAR_PROD_PRICE = (
-            await VALENTINE_BEAR_PROD.locator(".product-price").textContent()
-        )?.replace("$", "");
+        const VALENTINE_BEAR_PROD = await SHOP_PAGE.product("Valentine Bear");
+        const VALENTINE_BEAR_PROD_PRICE = await SHOP_PAGE.productDecimalPrice(VALENTINE_BEAR_PROD);
 
-        await VALENTINE_BEAR_PROD.getByRole("link", {
-            name: "Buy",
-        }).click();
-        await VALENTINE_BEAR_PROD.getByRole("link", {
-            name: "Buy",
-        }).click();
-        await VALENTINE_BEAR_PROD.getByRole("link", {
-            name: "Buy",
-        }).click();
+        await SHOP_PAGE.buy(VALENTINE_BEAR_PROD);
+        await SHOP_PAGE.buy(VALENTINE_BEAR_PROD);
+        await SHOP_PAGE.buy(VALENTINE_BEAR_PROD);
 
         await test.step("Navigate to 'Cart' page", async () => {
             await page.getByRole("link", { name: "Cart" }).click();
@@ -128,12 +112,12 @@ test.describe("Purchasing", () => {
 
         await test.step("The subtotal for each product is correct", async () => {
             expect.soft(
-                parseFloat(STUFFED_FROG_PROD_CART_SUBTOTAL),
-                "The Stuffed Frog's subtotal equals the product of its price and quantity"
-            ).toEqual(
-                parseFloat(STUFFED_FROG_PROD_CART_PRICE) *
-                    parseFloat(STUFFED_FROG_PROD_CART_QUANTITY)
-            );
+                    parseFloat(STUFFED_FROG_PROD_CART_SUBTOTAL),
+                    "The Stuffed Frog's subtotal equals the product of its price and quantity"
+                ).toEqual(
+                    parseFloat(STUFFED_FROG_PROD_CART_PRICE) *
+                        parseFloat(STUFFED_FROG_PROD_CART_QUANTITY)
+                );
 
             expect(
                 parseFloat(FLUFFY_BUNNY_PROD_CART_SUBTOTAL),
