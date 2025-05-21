@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { ShopPage } from "../page-objects/shop-page.pom";
+import { CartPage } from "../page-objects/cart-page.pom";
 
 test.describe("Purchasing", () => {
     test.beforeEach(async ({ page }) => {
@@ -10,6 +11,7 @@ test.describe("Purchasing", () => {
         page,
     }) => {
         const SHOP_PAGE = new ShopPage(page);
+        const CART_PAGE = new CartPage(page);
 
         const STUFFED_FROG_PROD = await SHOP_PAGE.product("Stuffed Frog");
         const STUFFED_FROG_PROD_PRICE = await SHOP_PAGE.productDecimalPrice(STUFFED_FROG_PROD);
@@ -41,74 +43,20 @@ test.describe("Purchasing", () => {
             ).toHaveClass("active");
         });
 
-        const STUFFED_FROG_PROD_IN_CART = page.getByRole("row").filter({
-            has: page.getByRole("cell").filter({ hasText: "Stuffed Frog" }),
-        });
+        const STUFFED_FROG_PROD_IN_CART = await CART_PAGE.product("Stuffed Frog");
+        const STUFFED_FROG_PROD_CART_PRICE = await CART_PAGE.productDecimalPrice(STUFFED_FROG_PROD_IN_CART);
+        const STUFFED_FROG_PROD_CART_QUANTITY = await CART_PAGE.productQuantity(STUFFED_FROG_PROD_IN_CART);
+        const STUFFED_FROG_PROD_CART_SUBTOTAL = await CART_PAGE.productDecimalSubtotal(STUFFED_FROG_PROD_IN_CART);
 
-        const STUFFED_FROG_PROD_CART_PRICE =
-            (
-                await STUFFED_FROG_PROD_IN_CART.evaluate(
-                    (tr) => tr.children[1].textContent
-                )
-            )?.replace("$", "") || "0";
+        const FLUFFY_BUNNY_PROD_IN_CART = await CART_PAGE.product("Fluffy Bunny");
+        const FLUFFY_BUNNY_PROD_CART_PRICE = await CART_PAGE.productDecimalPrice(FLUFFY_BUNNY_PROD_IN_CART);
+        const FLUFFY_BUNNY_PROD_CART_QUANTITY = await CART_PAGE.productQuantity(FLUFFY_BUNNY_PROD_IN_CART);
+        const FLUFFY_BUNNY_PROD_CART_SUBTOTAL = await CART_PAGE.productDecimalSubtotal(FLUFFY_BUNNY_PROD_IN_CART);
 
-        const STUFFED_FROG_PROD_CART_QUANTITY =
-            await STUFFED_FROG_PROD_IN_CART.getByRole(
-                "spinbutton"
-            ).inputValue();
-
-        const STUFFED_FROG_PROD_CART_SUBTOTAL =
-            (
-                await STUFFED_FROG_PROD_IN_CART.evaluate(
-                    (tr) => tr.children[3].textContent
-                )
-            )?.replace("$", "") || "0";
-
-        const FLUFFY_BUNNY_PROD_IN_CART = page.getByRole("row").filter({
-            has: page.getByRole("cell").filter({ hasText: "Fluffy Bunny" }),
-        });
-
-        const FLUFFY_BUNNY_PROD_CART_PRICE =
-            (
-                await FLUFFY_BUNNY_PROD_IN_CART.evaluate(
-                    (tr) => tr.children[1].textContent
-                )
-            )?.replace("$", "") || "0";
-
-        const FLUFFY_BUNNY_PROD_CART_QUANTITY =
-            await FLUFFY_BUNNY_PROD_IN_CART.getByRole(
-                "spinbutton"
-            ).inputValue();
-
-        const FLUFFY_BUNNY_PROD_CART_SUBTOTAL =
-            (
-                await FLUFFY_BUNNY_PROD_IN_CART.evaluate(
-                    (tr) => tr.children[3].textContent
-                )
-            )?.replace("$", "") || "0";
-
-        const VALENTINE_BEAR_PROD_IN_CART = page.getByRole("row").filter({
-            has: page.getByRole("cell").filter({ hasText: "Valentine Bear" }),
-        });
-
-        const VALENTINE_BEAR_PROD_CART_PRICE =
-            (
-                await VALENTINE_BEAR_PROD_IN_CART.evaluate(
-                    (tr) => tr.children[1].textContent
-                )
-            )?.replace("$", "") || "0";
-
-        const VALENTINE_BEAR_PROD_CART_QUANTITY =
-            await VALENTINE_BEAR_PROD_IN_CART.getByRole(
-                "spinbutton"
-            ).inputValue();
-
-        const VALENTINE_BEAR_PROD_CART_SUBTOTAL =
-            (
-                await VALENTINE_BEAR_PROD_IN_CART.evaluate(
-                    (tr) => tr.children[3].textContent
-                )
-            )?.replace("$", "") || "0";
+        const VALENTINE_BEAR_PROD_IN_CART = await CART_PAGE.product("Valentine Bear");
+        const VALENTINE_BEAR_PROD_CART_PRICE = await CART_PAGE.productDecimalPrice(VALENTINE_BEAR_PROD_IN_CART);
+        const VALENTINE_BEAR_PROD_CART_QUANTITY = await CART_PAGE.productQuantity(VALENTINE_BEAR_PROD_IN_CART);
+        const VALENTINE_BEAR_PROD_CART_SUBTOTAL = await CART_PAGE.productDecimalSubtotal(VALENTINE_BEAR_PROD_IN_CART);
 
         await test.step("The subtotal for each product is correct", async () => {
             expect.soft(
@@ -154,7 +102,7 @@ test.describe("Purchasing", () => {
         });
 
         await expect(
-            page.locator(".total"),
+            await CART_PAGE.totalPrice(),
             "The total equals the sum of all subtotals"
         ).toContainText(
             (
