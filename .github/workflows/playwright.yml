@@ -5,6 +5,15 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Run linter
+      uses: docker://github/super-linter:latest
+
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
