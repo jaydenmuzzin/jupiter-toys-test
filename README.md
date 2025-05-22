@@ -1,2 +1,2 @@
 # jupiter-toys-test
-Automated test suite for the demo Jupiter Toys website
+Automated test suite for the demo Jupiter Toys site
