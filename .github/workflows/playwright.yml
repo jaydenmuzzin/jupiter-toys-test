@@ -14,7 +14,14 @@ jobs:
     - name: Run linter
       uses: docker://github/super-linter:latest
       env:
-        TYPESCRIPT_ES_CONFIG_FILE: eslint.config.mjs
+        VALIDATE_GITHUB_ACTIONS: true
+        VALIDATE_GITLEAKS: true
+        VALIDATE_JSCPD: true
+        VALIDATE_JSON: true
+        VALIDATE_MARKDOWN: true
+        VALIDATE_NATURAL_LANGUAGE: true
+        VALIDATE_TYPESCRIPT_ES: true
+        VALIDATE_YAML: true
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
