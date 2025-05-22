@@ -79,7 +79,7 @@ test.describe(
                 });
 
                 // Fulfilling Test Case condition: "Note: Run this test 5 times to ensure 100% pass rate"
-                const REPEAT_TEST = 5;
+                const REPEAT_TEST: number = 5;
 
                 for (let i = 0; i < REPEAT_TEST; i++) {
                     let cfd = CONTACT_FORM_DATA[i];

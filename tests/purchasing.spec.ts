@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 import { ShopPage } from "../page-objects/shop-page.pom";
 import { CartPage } from "../page-objects/cart-page.pom";
 import { navigateTo } from "../utils/common";
@@ -22,14 +22,14 @@ test.describe(
                 const SHOP_PAGE = new ShopPage(page);
                 const CART_PAGE = new CartPage(page);
 
-                const STUFFED_FROG_PROD = await SHOP_PAGE.product("Stuffed Frog");
-                const STUFFED_FROG_PROD_PRICE = await SHOP_PAGE.productDecimalPrice(STUFFED_FROG_PROD);
+                const STUFFED_FROG_PROD: Locator = await SHOP_PAGE.product("Stuffed Frog");
+                const STUFFED_FROG_PROD_PRICE: string = await SHOP_PAGE.productDecimalPrice(STUFFED_FROG_PROD);
 
                 await SHOP_PAGE.buy(STUFFED_FROG_PROD);
                 await SHOP_PAGE.buy(STUFFED_FROG_PROD);
 
-                const FLUFFY_BUNNY_PROD = await SHOP_PAGE.product("Fluffy Bunny");
-                const FLUFFY_BUNNY_PROD_PRICE = await SHOP_PAGE.productDecimalPrice(FLUFFY_BUNNY_PROD);
+                const FLUFFY_BUNNY_PROD: Locator = await SHOP_PAGE.product("Fluffy Bunny");
+                const FLUFFY_BUNNY_PROD_PRICE: string = await SHOP_PAGE.productDecimalPrice(FLUFFY_BUNNY_PROD);
 
                 await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
                 await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
@@ -37,8 +37,8 @@ test.describe(
                 await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
                 await SHOP_PAGE.buy(FLUFFY_BUNNY_PROD);
 
-                const VALENTINE_BEAR_PROD = await SHOP_PAGE.product("Valentine Bear");
-                const VALENTINE_BEAR_PROD_PRICE = await SHOP_PAGE.productDecimalPrice(VALENTINE_BEAR_PROD);
+                const VALENTINE_BEAR_PROD: Locator = await SHOP_PAGE.product("Valentine Bear");
+                const VALENTINE_BEAR_PROD_PRICE: string = await SHOP_PAGE.productDecimalPrice(VALENTINE_BEAR_PROD);
 
                 await SHOP_PAGE.buy(VALENTINE_BEAR_PROD);
                 await SHOP_PAGE.buy(VALENTINE_BEAR_PROD);
@@ -48,20 +48,20 @@ test.describe(
                     navigateTo(page, CART_PAGE);
                 });
 
-                const STUFFED_FROG_PROD_IN_CART = await CART_PAGE.product("Stuffed Frog");
-                const STUFFED_FROG_PROD_CART_PRICE = await CART_PAGE.productDecimalPrice(STUFFED_FROG_PROD_IN_CART);
-                const STUFFED_FROG_PROD_CART_QUANTITY = await CART_PAGE.productQuantity(STUFFED_FROG_PROD_IN_CART);
-                const STUFFED_FROG_PROD_CART_SUBTOTAL = await CART_PAGE.productDecimalSubtotal(STUFFED_FROG_PROD_IN_CART);
+                const STUFFED_FROG_PROD_IN_CART: Locator = await CART_PAGE.product("Stuffed Frog");
+                const STUFFED_FROG_PROD_CART_PRICE: string = await CART_PAGE.productDecimalPrice(STUFFED_FROG_PROD_IN_CART);
+                const STUFFED_FROG_PROD_CART_QUANTITY: string = await CART_PAGE.productQuantity(STUFFED_FROG_PROD_IN_CART);
+                const STUFFED_FROG_PROD_CART_SUBTOTAL: string = await CART_PAGE.productDecimalSubtotal(STUFFED_FROG_PROD_IN_CART);
 
-                const FLUFFY_BUNNY_PROD_IN_CART = await CART_PAGE.product("Fluffy Bunny");
-                const FLUFFY_BUNNY_PROD_CART_PRICE = await CART_PAGE.productDecimalPrice(FLUFFY_BUNNY_PROD_IN_CART);
-                const FLUFFY_BUNNY_PROD_CART_QUANTITY = await CART_PAGE.productQuantity(FLUFFY_BUNNY_PROD_IN_CART);
-                const FLUFFY_BUNNY_PROD_CART_SUBTOTAL = await CART_PAGE.productDecimalSubtotal(FLUFFY_BUNNY_PROD_IN_CART);
+                const FLUFFY_BUNNY_PROD_IN_CART: Locator = await CART_PAGE.product("Fluffy Bunny");
+                const FLUFFY_BUNNY_PROD_CART_PRICE: string = await CART_PAGE.productDecimalPrice(FLUFFY_BUNNY_PROD_IN_CART);
+                const FLUFFY_BUNNY_PROD_CART_QUANTITY: string = await CART_PAGE.productQuantity(FLUFFY_BUNNY_PROD_IN_CART);
+                const FLUFFY_BUNNY_PROD_CART_SUBTOTAL: string = await CART_PAGE.productDecimalSubtotal(FLUFFY_BUNNY_PROD_IN_CART);
 
-                const VALENTINE_BEAR_PROD_IN_CART = await CART_PAGE.product("Valentine Bear");
-                const VALENTINE_BEAR_PROD_CART_PRICE = await CART_PAGE.productDecimalPrice(VALENTINE_BEAR_PROD_IN_CART);
-                const VALENTINE_BEAR_PROD_CART_QUANTITY = await CART_PAGE.productQuantity(VALENTINE_BEAR_PROD_IN_CART);
-                const VALENTINE_BEAR_PROD_CART_SUBTOTAL = await CART_PAGE.productDecimalSubtotal(VALENTINE_BEAR_PROD_IN_CART);
+                const VALENTINE_BEAR_PROD_IN_CART: Locator = await CART_PAGE.product("Valentine Bear");
+                const VALENTINE_BEAR_PROD_CART_PRICE: string = await CART_PAGE.productDecimalPrice(VALENTINE_BEAR_PROD_IN_CART);
+                const VALENTINE_BEAR_PROD_CART_QUANTITY: string = await CART_PAGE.productQuantity(VALENTINE_BEAR_PROD_IN_CART);
+                const VALENTINE_BEAR_PROD_CART_SUBTOTAL: string = await CART_PAGE.productDecimalSubtotal(VALENTINE_BEAR_PROD_IN_CART);
 
                 await test.step("The subtotal for each product is correct", async () => {
                     expect.soft(
