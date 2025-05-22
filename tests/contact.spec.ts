@@ -33,20 +33,20 @@ test.describe(
 
                     await test.step("Header message updated to indicate errors upon submitting an invalid form", async () => {
                         await CONTACT_PAGE.submitForm();
-                        await expect(CONTACT_PAGE.formInfo).toBeHidden();
-                        await expect(CONTACT_PAGE.formInfoError).toBeVisible();
+                        await expect.soft(CONTACT_PAGE.formInfo).toBeHidden();
+                        await expect.soft(CONTACT_PAGE.formInfoError).toBeVisible();
                     });
 
                     await test.step("Error message for each unpopulated mandatory field displays upon submitting form", async () => {
-                        await expect(
+                        await expect.soft(
                             CONTACT_PAGE.forenameRequired,
                             "'Forename is required' is present"
                         ).toBeVisible();
-                        await expect(
+                        await expect.soft(
                             CONTACT_PAGE.emailRequired,
                             "'Email is required' is present"
                         ).toBeVisible();
-                        await expect(
+                        await expect.soft(
                             CONTACT_PAGE.messageRequired,
                             "'Message is required' is present"
                         ).toBeVisible();
@@ -54,27 +54,27 @@ test.describe(
 
                     await test.step("Correctly addressing error of a mandatory field removes its message", async () => {
                         CONTACT_PAGE.enterForename("Jane");
-                        await expect(
+                        await expect.soft(
                             CONTACT_PAGE.forenameRequired,
                             "'Forename is required' is absent after populating field with valid data"
                         ).toBeHidden();
 
                         CONTACT_PAGE.enterEmail("jane.doe@example.com");
-                        await expect(
+                        await expect.soft(
                             CONTACT_PAGE.emailRequired,
                             "'Email is required' is absent after populating field with valid data"
                         ).toBeHidden();
 
                         CONTACT_PAGE.enterMessage("A toy I ordered has not arrived");
-                        await expect(
+                        await expect.soft(
                             CONTACT_PAGE.messageRequired,
                             "'Message is required' is absent after populating field with valid data"
                         ).toBeHidden();
                     });
 
                     await test.step("Header message returns to normal upon all errors having been correctly addressed", async () => {
-                        await expect(CONTACT_PAGE.formInfo).toBeVisible();
-                        await expect(CONTACT_PAGE.formInfoError).toBeHidden();
+                        await expect.soft(CONTACT_PAGE.formInfo).toBeVisible();
+                        await expect.soft(CONTACT_PAGE.formInfoError).toBeHidden();
                     });
                 });
 
@@ -126,7 +126,7 @@ test.describe(
                                 });
                             });
 
-                            await expect(
+                            await expect.soft(
                                 await CONTACT_PAGE.formInfoSuccessMessage(cfd.forename),
                                 "Successful submission message is present upon completion of form submission"
                             ).toBeVisible();
