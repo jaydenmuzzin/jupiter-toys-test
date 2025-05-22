@@ -13,7 +13,8 @@ jobs:
         fetch-depth: 0
     - name: Run linter
       uses: docker://github/super-linter:latest
-
+      env:
+        TYPESCRIPT_ES_CONFIG_FILE: eslint.config.mjs
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
