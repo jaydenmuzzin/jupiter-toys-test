@@ -8,7 +8,7 @@ test.describe("Purchasing", () => {
         await page.goto("/#/shop");
     });
 
-    test("should have correct prices and calculations in cart", async ({
+    test("Test Case 3: should have correct prices and calculations in cart", async ({
         page,
     }) => {
         const SHOP_PAGE = new ShopPage(page);

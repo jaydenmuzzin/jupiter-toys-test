@@ -9,7 +9,7 @@ test.describe("Contact page", () => {
     });
 
     test.describe("Form behaviour", () => {
-        test("should handle mandatory field errors", async ({ page }) => {
+        test("Test Case 1: should handle mandatory field errors", async ({ page }) => {
             const CONTACT_PAGE = new ContactPage(page);
 
             await test.step("Navigate to 'Contact' page", async () => {
@@ -69,7 +69,7 @@ test.describe("Contact page", () => {
         for (let i = 0; i < REPEAT_TEST; i++) {
             let cfd = CONTACT_FORM_DATA[i];
 
-            test(`should successfully submit having populated mandatory fields with valid data: attempt #${
+            test(`Test Case 2: should successfully submit having populated mandatory fields with valid data: attempt #${
                 i + 1
             }`, async ({ page }) => {
                 const CONTACT_PAGE = new ContactPage(page);
