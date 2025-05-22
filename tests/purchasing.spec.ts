@@ -45,7 +45,7 @@ test.describe(
                 await SHOP_PAGE.buy(VALENTINE_BEAR_PROD);
 
                 await test.step("Navigate to 'Cart' page", async () => {
-                    navigateTo(page, CART_PAGE);
+                    await navigateTo(page, CART_PAGE);
                 });
 
                 const STUFFED_FROG_PROD_IN_CART: Locator = await CART_PAGE.product("Stuffed Frog");

@@ -28,7 +28,7 @@ test.describe(
                     const CONTACT_PAGE = new ContactPage(page);
 
                     await test.step("Navigate to 'Contact' page", async () => {
-                        navigateTo(page, CONTACT_PAGE);
+                        await navigateTo(page, CONTACT_PAGE);
                     });
 
                     await test.step("Header message updated to indicate errors upon submitting an invalid form", async () => {
@@ -53,19 +53,19 @@ test.describe(
                     });
 
                     await test.step("Correctly addressing error of a mandatory field removes its message", async () => {
-                        CONTACT_PAGE.enterForename("Jane");
+                        await CONTACT_PAGE.enterForename("Jane");
                         await expect.soft(
                             CONTACT_PAGE.forenameRequired,
                             "'Forename is required' is absent after populating field with valid data"
                         ).toBeHidden();
 
-                        CONTACT_PAGE.enterEmail("jane.doe@example.com");
+                        await CONTACT_PAGE.enterEmail("jane.doe@example.com");
                         await expect.soft(
                             CONTACT_PAGE.emailRequired,
                             "'Email is required' is absent after populating field with valid data"
                         ).toBeHidden();
 
-                        CONTACT_PAGE.enterMessage("A toy I ordered has not arrived");
+                        await CONTACT_PAGE.enterMessage("A toy I ordered has not arrived");
                         await expect.soft(
                             CONTACT_PAGE.messageRequired,
                             "'Message is required' is absent after populating field with valid data"
@@ -82,7 +82,7 @@ test.describe(
                 const REPEAT_TEST: number = 5;
 
                 for (let i = 0; i < REPEAT_TEST; i++) {
-                    let cfd = CONTACT_FORM_DATA[i];
+                    const cfd = CONTACT_FORM_DATA[i];
 
                     test(
                         `Test Case 2: should successfully submit having populated mandatory fields with valid data: attempt #${
@@ -95,7 +95,7 @@ test.describe(
                             const CONTACT_PAGE = new ContactPage(page);
 
                             await test.step("Navigate to 'Contact' page", async () => {
-                                navigateTo(page, CONTACT_PAGE);
+                                await navigateTo(page, CONTACT_PAGE);
                             });
 
                             await test.step(`${cfd.forename} ${cfd.surname}'s contact form submits without error`, async () => {

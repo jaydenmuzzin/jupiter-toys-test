@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
     eslint.configs.recommended,
-    tseslint.configs.recommended,
+    ...tseslint.configs.recommended,
     {
         languageOptions: {
             parserOptions: {
@@ -13,6 +13,7 @@ export default tseslint.config(
                 tsconfigRootDir: ".",
             },
         },
+        ignores: ['eslint.config.mjs'],
         rules: {
             "@typescript-eslint/no-floating-promises": "error",
             "@typescript-eslint/await-thenable": "error",
