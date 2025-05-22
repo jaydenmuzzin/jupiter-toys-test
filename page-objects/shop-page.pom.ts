@@ -21,9 +21,10 @@ export class ShopPage implements BasePage {
     }
 
     async productDecimalPrice(product: Locator) {
-        return (
-            await (await this.productPrice(product)).textContent()
-        )?.replace("$", "");
+        const priceText = await (
+            await this.productPrice(product)
+        ).textContent();
+        return priceText ? priceText.replace("$", "") : "0";
     }
 
     async buy(product: Locator) {
