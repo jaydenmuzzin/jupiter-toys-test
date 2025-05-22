@@ -23,6 +23,7 @@ jobs:
         VALIDATE_TYPESCRIPT_ES: true
         VALIDATE_YAML: true
   test:
+    needs: lint
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
